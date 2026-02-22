@@ -1,0 +1,22 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+
+# Model weights
+*.pth
+*.pt
+
+# Processed data folders
+processed_body/
+processed_face/
+processed_body_trends/
+processed_face_trends/
+
+# Large files
+*.tar.gz
+*.log
+
+# OS
+.DS_Store
