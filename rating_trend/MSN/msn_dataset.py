@@ -4,7 +4,6 @@ import os
 import torch
 from torch.utils.data import Dataset
 
-
 class PoseDataset(Dataset):
     def __init__(self, data_dir):
         self.files = sorted([
