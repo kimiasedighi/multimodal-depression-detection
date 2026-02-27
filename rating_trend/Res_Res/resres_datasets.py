@@ -14,12 +14,13 @@ class PoseAsImageDataset(Dataset):
       - label_p: int (0/1/2)
       - subject_id: str
     """
-    def __init__(self, data_dir):
+    def __init__(self, data_dir, key_name="body"):
         self.paths = sorted([
             os.path.join(data_dir, f)
             for f in os.listdir(data_dir)
             if f.endswith(".pt")
         ])
+        self.key_name = key_name
         if not self.paths:
             raise RuntimeError(f"No .pt files found in {data_dir}")
 
@@ -45,7 +46,7 @@ class PoseAsImageDataset(Dataset):
 
         img = self._pose_to_image(item["data"])
         return {
-            "body": img,
+            self.key_name: img,
             "label_n": int(item["label_n"]),
             "label_p": int(item["label_p"]),
             "subject_id": str(item["subject_id"]),

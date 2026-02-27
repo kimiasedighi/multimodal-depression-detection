@@ -11,6 +11,7 @@ from sklearn.metrics import classification_report, confusion_matrix
 from msn_dataset import PoseDataset
 from msn_body import MSNBody
 
+NUM_CLASSES = 2  
 
 def train_one_epoch(model, loader, criterion, optimizer, device):
     model.train()
@@ -63,7 +64,7 @@ def main(args):
     val_loader = DataLoader(Subset(dataset, val_idx), batch_size=args.batch_size, shuffle=False)
     test_loader = DataLoader(Subset(dataset, test_idx), batch_size=args.batch_size, shuffle=False)
 
-    model = MSNBody(in_channels=3, num_joints=11, num_classes=args.num_classes).to(device)
+    model = MSNBody(in_channels=3, num_joints=11, num_classes=NUM_CLASSES).to(device)
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.Adam(model.parameters(), lr=args.lr)
 
@@ -91,12 +92,11 @@ def main(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Train MSN model on pose data")
-    parser.add_argument('--data_dir', type=str, default="./processed_body", help="Path to processed .pt data")
-    parser.add_argument('--save_path', type=str, default="./MSN/best_msn_model.pth", help="Path to save best model")
+    parser.add_argument('--data_dir', type=str, default="./symptom_classification/processed_body", help="Path to processed .pt data")
+    parser.add_argument('--save_path', type=str, default="./symptom_classification/MSN/best_msn_model.pth", help="Path to save best model")
     parser.add_argument('--batch_size', type=int, default=16)
     parser.add_argument('--lr', type=float, default=1e-3)
     parser.add_argument('--epochs', type=int, default=20)
-    parser.add_argument('--num_classes', type=int, default=2)
 
     args = parser.parse_args()
     main(args)

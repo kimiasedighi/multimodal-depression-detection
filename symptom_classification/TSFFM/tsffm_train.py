@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, confusion_matrix
 
 import sys
-sys.path.append("Res_Res")
+sys.path.append("symptom_classification/Res_Res")
 
 from tsffm_model import TSFFM
 from resres_datasets import FusionPoseDataset
@@ -86,12 +86,12 @@ def main(args):
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser("TSFFM Training")
-    ap.add_argument("--body_dir", default="processed_body")
-    ap.add_argument("--face_dir", default="processed_face")
+    ap.add_argument("--body_dir", default="symptom_classification/processed_body")
+    ap.add_argument("--face_dir", default="symptom_classification/processed_face")
     ap.add_argument("--epochs", type=int, default=30)
     ap.add_argument("--batch_size", type=int, default=4)
     ap.add_argument("--lr", type=float, default=1e-4)
     ap.add_argument("--pretrained", action="store_true")
-    ap.add_argument("--save_path", default="./TSFFM/best_tsffm.pth")
+    ap.add_argument("--save_path", default="./symptom_classification/TSFFM/best_tsffm.pth")
     args = ap.parse_args()
     main(args)

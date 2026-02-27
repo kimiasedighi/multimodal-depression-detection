@@ -31,8 +31,8 @@ args = parser.parse_args()
 
 # ================= CONFIG =================
 FACE_ROOT = "/home/janus/iwso-datasets/eiFaceLandmarksNew"
-OUTPUT_DIR = "./processed_face"
-LABEL_FILE = "labels/20250110_Participant_list.xlsx"
+OUTPUT_DIR = "./symptom_classification/processed_face"
+LABEL_FILE = "./symptom_classification/labels/20250110_Participant_list.xlsx"
 
 FRAME_LEN = 300
 CHANNELS = 3

@@ -12,6 +12,7 @@ from sklearn.metrics import f1_score, classification_report, confusion_matrix
 from resres_model import ResRes18DecisionFusion
 from resres_datasets import PoseAsImageDataset, FusionPoseDataset
 
+NUM_CLASSES = 3
 
 # --------------------------------------------------
 # Utilities
@@ -47,7 +48,7 @@ def subject_split(ds, test_ratio=0.2, val_ratio=0.1, seed=42):
     return collect(train_sids), collect(val_sids), collect(test_sids)
 
 
-def compute_class_weights(ds, indices, label_key, num_classes=3):
+def compute_class_weights(ds, indices, label_key, num_classes=NUM_CLASSES):
     labels = [ds[i][label_key] for i in indices]
     counts = np.bincount(labels, minlength=num_classes).astype(np.float32)
     weights = counts.sum() / (num_classes * counts + 1e-6)
@@ -62,9 +63,9 @@ def make_dataset(args):
     if args.input_type == "F+B":
         return FusionPoseDataset(args.body_dir, args.face_dir)
     elif args.input_type == "F":
-        return PoseAsImageDataset(args.face_dir)
+        return PoseAsImageDataset(args.face_dir, key_name="face")
     elif args.input_type == "B":
-        return PoseAsImageDataset(args.body_dir)
+        return PoseAsImageDataset(args.body_dir, key_name="body")
     else:
         raise ValueError("Invalid input_type")
 
@@ -132,13 +133,13 @@ def main(args):
     test_loader  = DataLoader(Subset(ds, te_idx), batch_size=args.batch_size)
 
     # class weights
-    w, counts = compute_class_weights(ds, tr_idx, args.label, args.num_classes)
+    w, counts = compute_class_weights(ds, tr_idx, args.label, NUM_CLASSES)
     w = w.to(device)
     print("Train class counts:", counts.tolist())
     print("Class weights:", w.detach().cpu().tolist())
 
     model = ResRes18DecisionFusion(
-        num_classes=args.num_classes,
+        num_classes=NUM_CLASSES,
         input_type=args.input_type,
         fusion=args.fusion,
     ).to(device)
@@ -233,7 +234,6 @@ if __name__ == "__main__":
     ap.add_argument("--body_dir", default="./rating_trend/processed_body_trends")
     ap.add_argument("--face_dir", default="./rating_trend/processed_face_trends")
     ap.add_argument("--label", default="label_n", choices=["label_n", "label_p"])
-    ap.add_argument("--num_classes", type=int, default=3)
 
     ap.add_argument("--epochs", type=int, default=60)
     ap.add_argument("--batch_size", type=int, default=16)

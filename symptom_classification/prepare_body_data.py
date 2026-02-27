@@ -33,8 +33,8 @@ args = parser.parse_args()
 CONFIG = {
     "json_root_dir": "/home/janus/iwso-datasets/t2-3d-body-poses",
     "raw_data_dir": "/home/vault/empkins/tpD/D02/RCT/raw_data",
-    "label_file": "labels/20250110_Participant_list.xlsx",
-    "output_dir": "./processed_body",
+    "label_file": "./symptom_classification/labels/20250110_Participant_list.xlsx",
+    "output_dir": "./symptom_classification/processed_body",
     "sheet_name": "Sheet3",
     "label_column_depressed": "Bedingung",
     "label_column_healthy": "Bedingung.1",

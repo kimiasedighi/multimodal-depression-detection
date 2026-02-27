@@ -8,6 +8,8 @@ from sklearn.metrics import classification_report, confusion_matrix
 from resres_model import ResRes18DecisionFusion
 from resres_datasets import PoseAsImageDataset, FusionPoseDataset
 
+NUM_CLASSES = 2
+
 def seed_all(seed=42):
     import random
     random.seed(seed); np.random.seed(seed)
@@ -94,7 +96,7 @@ def main(args):
     ds, train_loader, val_loader, test_loader = make_loaders(args)
 
     model = ResRes18DecisionFusion(
-        num_classes=args.num_classes,
+        num_classes=NUM_CLASSES,
         input_type=args.input_type,
         fusion=args.fusion,
         pretrained=args.pretrained,
@@ -132,9 +134,8 @@ def main(args):
 if __name__ == "__main__":
     ap = argparse.ArgumentParser("Train Res-Res (ResNet18 x2) with decision fusion")
     ap.add_argument("--input_type", type=str, default="B", choices=["B","F","F+B"])
-    ap.add_argument("--body_dir", type=str, default="./processed_body")
-    ap.add_argument("--face_dir", type=str, default="./processed_face")
-    ap.add_argument("--num_classes", type=int, default=2)
+    ap.add_argument("--body_dir", type=str, default="./symptom_classification/processed_body")
+    ap.add_argument("--face_dir", type=str, default="./symptom_classification/processed_face")
     ap.add_argument("--epochs", type=int, default=20)
     ap.add_argument("--batch_size", type=int, default=16)
     ap.add_argument("--lr", type=float, default=1e-3)
@@ -143,7 +144,7 @@ if __name__ == "__main__":
     ap.add_argument("--fusion", type=str, default="avg_logit", choices=["avg_logit","avg_prob"])
     ap.add_argument("--branch_loss_w", type=float, default=1.0)
     ap.add_argument("--fusion_loss_w", type=float, default=1.0)
-    ap.add_argument("--save_path", type=str, default="./Res_Res/best_resres18.pth")
+    ap.add_argument("--save_path", type=str, default="./symptom_classification/Res_Res/best_resres18.pth")
     args = ap.parse_args()
     if args.input_type in ("F","F+B") and not args.face_dir:
         ap.error("face_dir is required when input_type is F or F+B")

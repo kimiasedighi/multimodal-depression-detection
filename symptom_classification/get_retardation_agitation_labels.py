@@ -2,7 +2,7 @@
 
 import pandas as pd
 
-def high_HRSD(threshold = 30, gender = 'both', labels_path = 'labels/20251105_d02_questionnaires_app.xlsx'):
+def high_HRSD(threshold = 30, gender = 'both', labels_path = 'symptom_classification/labels/20251105_d02_questionnaires_app.xlsx'):
     # Read the Excel file
     df = pd.read_excel(labels_path)
 
@@ -64,7 +64,7 @@ def high_HRSD(threshold = 30, gender = 'both', labels_path = 'labels/20251105_d0
     return Healthy, Depressed
 
 
-def detect_Depression( gender = 'both', labels_path = 'labels/20251105_d02_questionnaires_app.xlsx'):
+def detect_Depression( gender = 'both', labels_path = 'symptom_classification/labels/20251105_d02_questionnaires_app.xlsx'):
     df = pd.read_excel(labels_path)
 
     xls_d = df[df['diag']=='d']
@@ -111,7 +111,7 @@ def detect_Depression( gender = 'both', labels_path = 'labels/20251105_d02_quest
     return Healthy, Depressed
 
 
-def detect_symptoms(labels_path = 'labels/20251105_d02_questionnaires_app.xlsx', symptom_name = 'retardation', gender = 'both'):
+def detect_symptoms(labels_path = 'symptom_classification/labels/20251105_d02_questionnaires_app.xlsx', symptom_name = 'retardation', gender = 'both'):
     # Read the Excel file
     df = pd.read_excel(labels_path)
 
@@ -192,7 +192,7 @@ df = pd.DataFrame({
     "label": ["Healthy"] * len(Healthy) + ["Depressed"] * len(Depressed)
 })
 
-df.to_csv("labels/retardation_labels.csv", index=False)
+df.to_csv("symptom_classification/labels/retardation_labels.csv", index=False)
 
 Healthy, Depressed = detect_symptoms(
     symptom_name="agitation",
@@ -204,4 +204,4 @@ df = pd.DataFrame({
     "label": ["Healthy"] * len(Healthy) + ["Depressed"] * len(Depressed)
 })
 
-df.to_csv("labels/agitation_labels.csv", index=False)
+df.to_csv("symptom_classification/labels/agitation_labels.csv", index=False)

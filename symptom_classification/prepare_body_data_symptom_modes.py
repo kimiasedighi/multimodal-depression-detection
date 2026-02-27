@@ -44,8 +44,8 @@ SYMPTOM_MODE = args.symptom_mode.lower()
 # SYMPTOM_MODE = os.environ.get("SYMPTOM_MODE", "retardation").lower()
 
 LABEL_CSV_MAP = {
-    "retardation": "labels/retardation_labels.csv",
-    "agitation": "labels/agitation_labels.csv",
+    "retardation": "symptom_classification/labels/retardation_labels.csv",
+    "agitation": "symptom_classification/labels/agitation_labels.csv",
 }
 
 if SYMPTOM_MODE not in LABEL_CSV_MAP:
@@ -58,7 +58,7 @@ CONFIG = {
     "json_root_dir": "/home/janus/iwso-datasets/t2-3d-body-poses",
     "raw_data_dir": "/home/vault/empkins/tpD/D02/RCT/raw_data",
     "label_csv": LABEL_CSV_MAP[SYMPTOM_MODE],
-    "output_dir": "./processed_body",
+    "output_dir": "./symptom_classification/processed_body",
     "num_joints": 11,
     "channels": 3,
     "frame_len": 300,

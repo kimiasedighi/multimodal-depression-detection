@@ -44,8 +44,8 @@ SYMPTOM_MODE = args.symptom_mode.lower()
 # SYMPTOM_MODE = os.environ.get("SYMPTOM_MODE", "retardation").lower()
 
 LABEL_CSV_MAP = {
-    "retardation": "labels/retardation_labels.csv",
-    "agitation": "labels/agitation_labels.csv",
+    "retardation": "symptom_classification/labels/retardation_labels.csv",
+    "agitation": "symptom_classification/labels/agitation_labels.csv",
 }
 
 if SYMPTOM_MODE not in LABEL_CSV_MAP:
@@ -56,7 +56,7 @@ if SYMPTOM_MODE not in LABEL_CSV_MAP:
 # --------------------------------------------------
 FACE_ROOT = "/home/janus/iwso-datasets/eiFaceLandmarks"
 LABEL_CSV = LABEL_CSV_MAP[SYMPTOM_MODE]
-OUTPUT_DIR = "./processed_face"
+OUTPUT_DIR = "./symptom_classification/processed_face"
 FRAME_LEN = 300
 CHANNELS = 3
 

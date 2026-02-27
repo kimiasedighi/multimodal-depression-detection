@@ -102,6 +102,9 @@ class ResRes18DecisionFusion(nn.Module):
             logits_list.append(lf)
 
         outputs["logits_fused"] = self.fuse_logits(logits_list)
+        
+        if len(logits_list) > 0:
+            outputs["logits_fused"] = self.fuse_logits(logits_list)
 
         if labels is None:
             return outputs

@@ -8,6 +8,7 @@ from sklearn.metrics import classification_report, confusion_matrix, f1_score
 from tsffm_model import TSFFM
 from resres_datasets import FusionPoseDataset
 
+NUM_CLASSES = 3
 
 def seed_all(s=42):
     import random
@@ -73,11 +74,11 @@ def main(args):
     val_loader   = DataLoader(Subset(ds, va), batch_size=args.batch_size, shuffle=False)
     test_loader  = DataLoader(Subset(ds, te), batch_size=args.batch_size, shuffle=False)
 
-    w, counts = compute_class_weights(ds, tr, args.label, args.num_classes)
+    w, counts = compute_class_weights(ds, tr, args.label, NUM_CLASSES)
     w = w.to(device)
     print(f"Train label counts for {args.label}: {counts.tolist()}  weights: {w.detach().cpu().tolist()}")
 
-    model = TSFFM(num_classes=args.num_classes, pretrained=False, fle_dim=args.fle_dim).to(device)
+    model = TSFFM(num_classes=NUM_CLASSES, pretrained=False, fle_dim=args.fle_dim).to(device)
     opt = torch.optim.Adam(model.parameters(), lr=args.lr, weight_decay=args.weight_decay)
 
     best = -1.0
@@ -122,7 +123,6 @@ if __name__ == "__main__":
     ap.add_argument("--face_dir", type=str, default="./rating_trend/processed_face_trends")
 
     ap.add_argument("--label", type=str, default="label_n", choices=["label_n", "label_p"])
-    ap.add_argument("--num_classes", type=int, default=3)
 
     ap.add_argument("--epochs", type=int, default=30)
     ap.add_argument("--batch_size", type=int, default=4)
