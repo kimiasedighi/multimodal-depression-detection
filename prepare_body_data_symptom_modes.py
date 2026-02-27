@@ -12,11 +12,36 @@ import torch
 import numpy as np
 from datetime import datetime
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--pose_mode",
+    type=str,
+    default="all",
+    choices=["all", "ei", "training", "coping"],
+    help="Pose filtering mode"
+)
+
+parser.add_argument(
+    "--symptom_mode",
+    type=str,
+    default="retardation",
+    choices=["retardation", "agitation"],
+    help="Symptom label set"
+)
+
+args = parser.parse_args()
+
+POSE_MODE = args.pose_mode.lower()
+SYMPTOM_MODE = args.symptom_mode.lower()
+
 # --------------------------------------------------
 # MODES
 # --------------------------------------------------
-POSE_MODE = os.environ.get("POSE_MODE", "all").lower()
-SYMPTOM_MODE = os.environ.get("SYMPTOM_MODE", "retardation").lower()
+# POSE_MODE = os.environ.get("POSE_MODE", "all").lower()
+# SYMPTOM_MODE = os.environ.get("SYMPTOM_MODE", "retardation").lower()
 
 LABEL_CSV_MAP = {
     "retardation": "labels/retardation_labels.csv",
@@ -112,6 +137,7 @@ def process_participant(folder_name):
     
     elif POSE_MODE == "training":
         app_df = app_df[app_df["label"].str.contains("training", case=False, na=False)]
+        
     elif POSE_MODE == "coping":
         app_df = app_df[app_df["label"].str.contains("coping", case=False, na=False)]
     

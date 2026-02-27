@@ -8,6 +8,27 @@ import pandas as pd
 from glob import glob
 from tqdm import tqdm
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--pose_mode",
+    type=str,
+    default="all",
+    choices=["all", "ei", "training", "coping"],
+    help="Select pose mode"
+)
+
+parser.add_argument(
+    "--pattern",
+    type=str,
+    default="CRADK|ADK",
+    help="Regex pattern for group filtering (e.g. CR|ADK|SHAM)"
+)
+
+args = parser.parse_args()
+
 # ================= CONFIG =================
 FACE_ROOT = "/home/janus/iwso-datasets/eiFaceLandmarksNew"
 OUTPUT_DIR = "./processed_face"
@@ -16,7 +37,8 @@ LABEL_FILE = "labels/20250110_Participant_list.xlsx"
 FRAME_LEN = 300
 CHANNELS = 3
 
-POSE_MODE = os.environ.get("POSE_MODE", "all").lower()
+# POSE_MODE = os.environ.get("POSE_MODE", "all").lower()
+POSE_MODE = args.pose_mode.lower()
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
@@ -34,7 +56,9 @@ sheet.columns = (
     .str.replace(r"\s+", " ", regex=True)
 )
 
-pattern = "CRADK|ADK"
+# pattern = "CRADK|ADK"
+pattern = args.pattern
+
 
 def normalize_id(x):
     x = str(x).split(".")[0].strip()

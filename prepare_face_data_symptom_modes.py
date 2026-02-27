@@ -12,11 +12,36 @@ import pandas as pd
 from glob import glob
 from tqdm import tqdm
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--pose_mode",
+    type=str,
+    default="all",
+    choices=["all", "ei", "training", "coping"],
+    help="Pose selection mode"
+)
+
+parser.add_argument(
+    "--symptom_mode",
+    type=str,
+    default="retardation",
+    choices=["retardation", "agitation"],
+    help="Select symptom label set"
+)
+
+args = parser.parse_args()
+
+POSE_MODE = args.pose_mode.lower()
+SYMPTOM_MODE = args.symptom_mode.lower()
+
 # --------------------------------------------------
 # MODES
 # --------------------------------------------------
-POSE_MODE = os.environ.get("POSE_MODE", "all").lower()
-SYMPTOM_MODE = os.environ.get("SYMPTOM_MODE", "retardation").lower()
+# POSE_MODE = os.environ.get("POSE_MODE", "all").lower()
+# SYMPTOM_MODE = os.environ.get("SYMPTOM_MODE", "retardation").lower()
 
 LABEL_CSV_MAP = {
     "retardation": "labels/retardation_labels.csv",

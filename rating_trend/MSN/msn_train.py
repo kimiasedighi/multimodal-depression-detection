@@ -110,8 +110,8 @@ def main(args):
 
     model = MSNBody().to(device)
 
-    crit_n = nn.CrossEntropyLoss(weight=w_n)
-    crit_p = nn.CrossEntropyLoss(weight=w_p)
+    crit_n = nn.CrossEntropyLoss(weight=w_n, label_smoothing=0.05)
+    crit_p = nn.CrossEntropyLoss(weight=w_p, label_smoothing=0.05)
 
     opt = optim.AdamW(model.parameters(), lr=args.lr, weight_decay=1e-4)
 

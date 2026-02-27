@@ -33,7 +33,7 @@ class MSNBody(nn.Module):
 
         self.conv_fuse = nn.Conv2d(32 * len(scales), 64, kernel_size=1)
         self.pool = nn.AdaptiveAvgPool2d((1, 1))
-        self.dropout = nn.Dropout(0.4)
+        self.dropout = nn.Dropout(0.2)
 
         self.head_n = nn.Linear(64, num_classes)
         self.head_p = nn.Linear(64, num_classes)

@@ -8,6 +8,27 @@ import torch
 import numpy as np
 from datetime import datetime
 
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--pose_mode",
+    type=str,
+    default="all",
+    choices=["all", "ei", "training", "coping"],
+    help="Select pose mode"
+)
+
+parser.add_argument(
+    "--label_keywords",
+    type=str,
+    nargs="+",
+    default=["CRADK", "ADK"],
+    help="Group keywords for filtering"
+)
+
+args = parser.parse_args()
+
 # --- Configurable Parameters ---
 CONFIG = {
     "json_root_dir": "/home/janus/iwso-datasets/t2-3d-body-poses",
@@ -19,7 +40,7 @@ CONFIG = {
     "label_column_healthy": "Bedingung.1",
     "id_column_depressed": "ID",
     "id_column_healthy": "ID.1",
-    "label_keywords": ["CRADK", "ADK"],
+    "label_keywords": args.label_keywords,
     "num_joints": 11,
     "channels": 3,
     "frame_len": 300
@@ -64,7 +85,8 @@ NUM_JOINTS = CONFIG["num_joints"]
 CHANNELS = CONFIG["channels"]
 FRAME_LEN = CONFIG["frame_len"]
 
-POSE_MODE = os.environ.get("POSE_MODE", "all").lower()
+# POSE_MODE = os.environ.get("POSE_MODE", "all").lower()
+POSE_MODE = args.pose_mode.lower()
 
 def normalize_joints(joints):
     return joints - joints[0]
@@ -129,6 +151,7 @@ def process_participant(folder_name):
             filtered_rows = df[
                 df['label'].str.contains("training", case=False, na=False)
             ]
+            
         elif POSE_MODE == "coping":
             filtered_rows = df[
                 df['label'].str.contains("coping", case=False, na=False)
