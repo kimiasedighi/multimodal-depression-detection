@@ -27,6 +27,13 @@ parser.add_argument(
     help="Group keywords for filtering"
 )
 
+parser.add_argument(
+    "--output_dir",
+    type=str,
+    default="./symptom_classification/processed_body",
+    help="Directory where processed .pt files will be saved"
+)
+
 args = parser.parse_args()
 
 # --- Configurable Parameters ---
@@ -34,7 +41,7 @@ CONFIG = {
     "json_root_dir": "/home/janus/iwso-datasets/t2-3d-body-poses",
     "raw_data_dir": "/home/vault/empkins/tpD/D02/RCT/raw_data",
     "label_file": "./symptom_classification/labels/20250110_Participant_list.xlsx",
-    "output_dir": "./symptom_classification/processed_body",
+    "output_dir": args.output_dir,
     "sheet_name": "Sheet3",
     "label_column_depressed": "Bedingung",
     "label_column_healthy": "Bedingung.1",

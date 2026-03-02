@@ -10,11 +10,24 @@ import pandas as pd
 from glob import glob
 from tqdm import tqdm
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--output_dir",
+    type=str,
+    default="./rating_trend/processed_face_trends",
+    help="Directory where processed .pt files will be saved"
+)
+
+args = parser.parse_args()
+
 # ================= CONFIG =================
 
 FACE_ROOT = "/home/janus/iwso-datasets/eiFaceLandmarksNew"
 LABEL_CSV = "./rating_trend/rating_differences.csv"
-OUTPUT_DIR = "./rating_trend/processed_face_trends"
+OUTPUT_DIR = args.output_dir
 
 FRAME_LEN = 300
 CHANNELS = 3

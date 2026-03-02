@@ -27,11 +27,18 @@ parser.add_argument(
     help="Regex pattern for group filtering (e.g. CR|ADK|SHAM)"
 )
 
+parser.add_argument(
+    "--output_dir",
+    type=str,
+    default="./symptom_classification/processed_face",
+    help="Directory where processed .pt files will be saved"
+)
+
 args = parser.parse_args()
 
 # ================= CONFIG =================
 FACE_ROOT = "/home/janus/iwso-datasets/eiFaceLandmarksNew"
-OUTPUT_DIR = "./symptom_classification/processed_face"
+OUTPUT_DIR = args.output_dir
 LABEL_FILE = "./symptom_classification/labels/20250110_Participant_list.xlsx"
 
 FRAME_LEN = 300

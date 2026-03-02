@@ -7,10 +7,23 @@ import numpy as np
 import pandas as pd
 from datetime import datetime
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument(
+    "--output_dir",
+    type=str,
+    default="./rating_trend/processed_body_trends",
+    help="Directory where processed .pt files will be saved"
+)
+
+args = parser.parse_args()
+
 # ---------- CONFIG ----------
 JSON_ROOT = "/home/janus/iwso-datasets/t2-3d-body-poses"
 RAW_DIR = "/home/vault/empkins/tpD/D02/RCT/raw_data"
-OUTPUT_DIR = "./rating_trend/processed_body_trends"
+OUTPUT_DIR = args.output_dir
 
 LABEL_CSV = "/home/hpc/iwso/iwso193h/rating_trend/rating_differences.csv"
 
