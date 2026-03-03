@@ -97,9 +97,9 @@ def main(args):
     dataset = PoseDataset(args.data_dir)
     tr_idx, va_idx, te_idx = subject_split(dataset)
 
-    train_loader = DataLoader(Subset(dataset, tr_idx), batch_size=args.batch, shuffle=True)
-    val_loader   = DataLoader(Subset(dataset, va_idx), batch_size=args.batch)
-    test_loader  = DataLoader(Subset(dataset, te_idx), batch_size=args.batch)
+    train_loader = DataLoader(Subset(dataset, tr_idx), batch_size=args.batch_size, shuffle=True)
+    val_loader   = DataLoader(Subset(dataset, va_idx), batch_size=args.batch_size)
+    test_loader  = DataLoader(Subset(dataset, te_idx), batch_size=args.batch_size)
 
     # class weights
     labels_n = [dataset[i][1] for i in tr_idx]
@@ -127,11 +127,11 @@ def main(args):
 
         if score > best:
             best = score
-            torch.save(model.state_dict(), args.save)
+            torch.save(model.state_dict(), args.save_path)
             print("✅ Saved best model")
 
     # ---------- TEST ----------
-    model.load_state_dict(torch.load(args.save))
+    model.load_state_dict(torch.load(args.save_path))
     f1n, f1p, pn, pp, yn, yp = eval_model(model, test_loader, device)
 
     names = ["negative", "neutral", "positive"]
@@ -152,9 +152,9 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser()
     ap.add_argument("--data_dir", default="./rating_trend/processed_body_trends")
     ap.add_argument("--epochs", type=int, default=30)
-    ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--batch_size", type=int, default=16)
     ap.add_argument("--lr", type=float, default=3e-4)
-    ap.add_argument("--save", default="./rating_trend/MSN/best_msn_model.pth")
+    ap.add_argument("--save_path", default="./rating_trend/MSN/best_msn_model.pth")
     args = ap.parse_args()
 
     main(args)

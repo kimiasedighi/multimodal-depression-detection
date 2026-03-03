@@ -68,7 +68,7 @@ def main(args):
 
     test_loader = DataLoader(
         Subset(dataset, te_idx),
-        batch_size=args.batch,
+        batch_size=args.batch_size,
         shuffle=False
     )
 
@@ -97,6 +97,6 @@ if __name__ == "__main__":
     ap = argparse.ArgumentParser("Evaluate MSN trend model (static split)")
     ap.add_argument("--data_dir", default="./rating_trend/processed_body_trends")
     ap.add_argument("--model_path", required=True)
-    ap.add_argument("--batch", type=int, default=16)
+    ap.add_argument("--batch_size", type=int, default=16)
     args = ap.parse_args()
     main(args)
