@@ -1,4 +1,4 @@
-# Multimodal Depression Detection (Body + Face)
+# Multimodal Depression Detection Using 3D Body Pose and 3D Facial Landmarks
 
 ## 3D Body Pose & 3D Facial Landmark Based Learning
 
